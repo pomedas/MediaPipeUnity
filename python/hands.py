@@ -28,17 +28,19 @@ while cap.isOpened():
   # pass by reference.
   image.flags.writeable = False
   results = hands.process(image)
-  
+
   #Send landmarks using UDP
   detections = results.multi_hand_landmarks
-  
+
   if detections is not None:
       for detection in detections:
-            #for landmark in detection.landmark:
-                msg=str(detection.landmark[0].x)+','+str(detection.landmark[0].y)+','+str(detection.landmark[0].z)+','+str(detection.landmark[0].visibility)
-                sockmsg=bytearray(msg, 'utf-8')
-                sock.sendto(sockmsg, (UDP_IP,UDP_PORT)) 
-                #print(msg)
+          msg = ""
+          for landmark in detection.landmark:
+              #msg=str(detection.landmark[0].x)+','+str(detection.landmark[0].y)+','+str(detection.landmark[0].z)+','+str(detection.landmark[0].visibility)
+              msg+=str(round(landmark.x,3))+','+str(round(landmark.y,3))+','+str(round(landmark.z,3))+','+str(landmark.visibility)+','
+          sockmsg=bytearray(msg, 'utf-8')
+          sock.sendto(sockmsg, (UDP_IP,UDP_PORT))
+          #print(msg)
 
   # Draw the hand annotations on the image.
   image.flags.writeable = True

@@ -24,7 +24,22 @@ public class MediapipeReceiver : MonoBehaviour
 	//Receiver port
 	int port = 21900;
 
-	Vector3 wristPosition;
+	// Hand landmarks positions
+	// https://google.github.io/mediapipe/solutions/hands.html
+	Vector3 wrist; //0
+	Vector3 thumbTip; //4
+	Vector3 indexFingerTip; //8
+	Vector3 middleFingerTip; //12
+	Vector3 ringFingerTip; //16
+	Vector3 pinkyTip; //20
+
+	//Hand landmarks representations as GameObjects
+	public GameObject wristGO;
+	public GameObject thumbTipGO;
+	public GameObject indexFingerTipGO;
+	public GameObject middleFingerTipGO;
+	public GameObject ringFingerTipGO;
+	public GameObject pinkyTipGO;
 
 	private void Start()
 	{
@@ -61,9 +76,29 @@ public class MediapipeReceiver : MonoBehaviour
 					string message = ExtractString(packet, 0, packet.Length);
 					string[] messageSplit = message.Split(new Char[] { ',' });
 
-					wristPosition = new Vector3(float.Parse(messageSplit[0].ToString()),
-													float.Parse(messageSplit[1].ToString())*-1, //Reverse the Y axis
-													float.Parse(messageSplit[2].ToString()));
+					wrist = new Vector3(float.Parse(messageSplit[0].ToString()),
+															float.Parse(messageSplit[1].ToString())*-1, //Reverse the Y axis
+															float.Parse(messageSplit[2].ToString()));
+
+					thumbTip = new Vector3( float.Parse(messageSplit[4*4].ToString()),
+																float.Parse(messageSplit[(4*4)+1].ToString()) * -1, //Reverse the Y axis
+																float.Parse(messageSplit[(4*4)+2].ToString()));
+
+					indexFingerTip = new Vector3(float.Parse(messageSplit[8*4].ToString()),
+																	float.Parse(messageSplit[(8*4)+1].ToString()) * -1, //Reverse the Y axis
+																	float.Parse(messageSplit[(8*4)+2].ToString()));
+
+					middleFingerTip = new Vector3(float.Parse(messageSplit[12 * 4].ToString()),
+												float.Parse(messageSplit[(12 * 4) + 1].ToString()) * -1, //Reverse the Y axis
+												float.Parse(messageSplit[(12 * 4) + 2].ToString()));
+
+					ringFingerTip = new Vector3(float.Parse(messageSplit[16 * 4].ToString()),
+												float.Parse(messageSplit[(16 * 4) + 1].ToString()) * -1, //Reverse the Y axis
+												float.Parse(messageSplit[(16 * 4) + 2].ToString()));
+
+					pinkyTip = new Vector3(float.Parse(messageSplit[20 * 4].ToString()),
+												float.Parse(messageSplit[(20 * 4) + 1].ToString()) * -1, //Reverse the Y axis
+												float.Parse(messageSplit[(20 * 4) + 2].ToString()));
 
 					//Debug.Log("Receiver: "+message);
 				}
@@ -95,7 +130,13 @@ public class MediapipeReceiver : MonoBehaviour
 
 	private void Update()
 	{
-		transform.position = wristPosition * multiplier;
+		//Assign the positions received in the socket to the objects
+		wristGO.transform.position = wrist * multiplier;
+		thumbTipGO.transform.position = thumbTip * multiplier;
+		indexFingerTipGO.transform.position = indexFingerTip * multiplier;
+		middleFingerTipGO.transform.position = middleFingerTip * multiplier;
+		ringFingerTipGO.transform.position = ringFingerTip * multiplier;
+		pinkyTipGO.transform.position = pinkyTip * multiplier;
 	}
 
 	private void OnDestroy()
