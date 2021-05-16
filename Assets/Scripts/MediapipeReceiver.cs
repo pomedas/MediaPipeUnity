@@ -58,11 +58,15 @@ public class MediapipeReceiver : MonoBehaviour
 
 	private void ListenUDPThread()
 	{
-		var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
-		//Debug.Log("separator: "+culture.NumberFormat.NumberDecimalSeparator);
-		on = true;
+		on = true;      
 
 		Debug.Log("Receiver: listening on port " + port);
+
+		//Forces to use "." as decimal separator
+		CultureInfo info = new CultureInfo("es-ES");
+		info.NumberFormat.NumberDecimalSeparator = ".";
+		Thread.CurrentThread.CurrentCulture = info;
+		Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
 		while (on)
 		{
