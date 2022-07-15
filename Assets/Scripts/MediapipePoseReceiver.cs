@@ -8,6 +8,10 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Globalization;
 
+
+//Particles tutorial
+//https://www.youtube.com/watch?v=agr-QEsYwD0
+
 public class MediapipePoseReceiver : MonoBehaviour
 {
 	//
@@ -27,9 +31,13 @@ public class MediapipePoseReceiver : MonoBehaviour
 	// Pose landmarks positions
 	// https://google.github.io/mediapipe/solutions/pose.html
 	Vector3 nose; //0
+	Vector3 leftWrist; //15
+	Vector3 rightWrist; //16
 
 	//Pose landmarks representations as GameObjects
-	public GameObject noseGO;
+	[SerializeField] GameObject noseGO;
+	[SerializeField] GameObject leftWristGO;
+	[SerializeField] GameObject rightWristGO;
 
 	private void Start()
 	{
@@ -70,9 +78,20 @@ public class MediapipePoseReceiver : MonoBehaviour
 					string message = ExtractString(packet, 0, packet.Length);
 					string[] messageSplit = message.Split(new Char[] { ',' });
 
-					nose = new Vector3(float.Parse(messageSplit[0].ToString()),
-															float.Parse(messageSplit[1].ToString())*-1, //Reverse the Y axis
-															float.Parse(messageSplit[2].ToString()));
+					int index = 0; 
+					nose = new Vector3(float.Parse(messageSplit[index*4].ToString()) * -1, //Reverse the X axis
+									   float.Parse(messageSplit[(index * 4) + 1].ToString())*-1, //Reverse the Y axis
+									   float.Parse(messageSplit[(index * 4) + 2].ToString()));
+
+					index = 15;
+					leftWrist = new Vector3(float.Parse(messageSplit[(index * 4)].ToString()) * -1, //Reverse the X axis
+											float.Parse(messageSplit[(index * 4) + 1].ToString()) * -1, //Reverse the Y axis
+										    float.Parse(messageSplit[(index * 4) + 2].ToString()));
+
+					index = 16;
+					rightWrist = new Vector3(float.Parse(messageSplit[(index * 4)].ToString()) * -1, //Reverse the X axis
+											float.Parse(messageSplit[(index * 4) + 1].ToString()) * -1, //Reverse the Y axis
+											float.Parse(messageSplit[(index * 4) + 2].ToString()));
 
 				}
 				if (packet != null && packet.Length == 0)
@@ -104,7 +123,9 @@ public class MediapipePoseReceiver : MonoBehaviour
 	private void Update()
 	{
 		//Assign the positions received in the socket to the objects
-		noseGO.transform.position = nose * multiplier;
+		noseGO.transform.localPosition = nose * multiplier;
+		leftWristGO.transform.localPosition = leftWrist * multiplier;
+		rightWristGO.transform.localPosition = rightWrist * multiplier; 
 	}
 
 	private void OnDestroy()
