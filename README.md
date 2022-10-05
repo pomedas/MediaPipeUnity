@@ -23,3 +23,10 @@ https://google.github.io/mediapipe/solutions/pose.html
 
 Media Pipe Hands
 https://google.github.io/mediapipe/solutions/hands.html
+
+## Sample video
+
+[![Full Body Interaction](https://img.youtube.com/vi/7y8QfXfct7k/0.jpg)](https://www.youtube.com/watch?v=7y8QfXfct7kE "Full Body Interaction")
+
+
+
