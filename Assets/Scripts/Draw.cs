@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Draw : MonoBehaviour
 {
-    public bool draw;
+    public bool draw = true;
 
     LineRenderer lineRenderer;
     GameObject rightHand;
@@ -20,6 +20,7 @@ public class Draw : MonoBehaviour
 
     void Update()
     {
+        // Checks and assigns the righHand object
         if (rightHand == null && FindObjectOfType<HandCenterVisualization>() != null)
         {
             rightHand = FindObjectOfType<HandCenterVisualization>().lmRight;
@@ -34,14 +35,5 @@ public class Draw : MonoBehaviour
                 lineRenderer.SetPositions(points.ToArray());
             }
         }
-    }
-
-    public void ClearLine() {
-        points.Clear();
-        lineRenderer.positionCount = 0;  
-    }
-
-    public void ToggleDraw() {
-        draw = !draw;
     }
 }

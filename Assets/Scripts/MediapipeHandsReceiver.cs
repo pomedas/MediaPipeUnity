@@ -8,10 +8,6 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Globalization;
 
-
-//Particles tutorial
-//https://www.youtube.com/watch?v=agr-QEsYwD0
-
 public class MediapipeHandsReceiver : MonoBehaviour
 {
 	//
