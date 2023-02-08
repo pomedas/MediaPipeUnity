@@ -30,14 +30,7 @@ public class MediapipePoseReceiver : MonoBehaviour
 
 	// Pose landmarks positions
 	// https://google.github.io/mediapipe/solutions/pose.html
-	Vector3 nose; //0
-	Vector3 leftWrist; //15
-	Vector3 rightWrist; //16
-
-	//Pose landmarks representations as GameObjects
-	[SerializeField] GameObject noseGO;
-	[SerializeField] GameObject leftWristGO;
-	[SerializeField] GameObject rightWristGO;
+	public Vector3[] pose = new Vector3[32];
 
 	private void Start()
 	{
@@ -78,20 +71,14 @@ public class MediapipePoseReceiver : MonoBehaviour
 					string message = ExtractString(packet, 0, packet.Length);
 					string[] messageSplit = message.Split(new Char[] { ',' });
 
-					int index = 0; 
-					nose = new Vector3(float.Parse(messageSplit[index*4].ToString()) * -1, //Reverse the X axis
-									   float.Parse(messageSplit[(index * 4) + 1].ToString())*-1, //Reverse the Y axis
-									   float.Parse(messageSplit[(index * 4) + 2].ToString()));
+					for (int i = 0; i < 32; i++)
+					{
+						//Shift the first two positions in message split 
+						pose[i] = new Vector3( float.Parse(messageSplit[i * 4].ToString()) * -1, //Reverse the X axis
+											   float.Parse(messageSplit[(i * 4) + 1].ToString()) * -1, //Reverse the Y axis
+											   float.Parse(messageSplit[(i * 4) + 2].ToString()));
 
-					index = 15;
-					leftWrist = new Vector3(float.Parse(messageSplit[(index * 4)].ToString()) * -1, //Reverse the X axis
-											float.Parse(messageSplit[(index * 4) + 1].ToString()) * -1, //Reverse the Y axis
-										    float.Parse(messageSplit[(index * 4) + 2].ToString()));
-
-					index = 16;
-					rightWrist = new Vector3(float.Parse(messageSplit[(index * 4)].ToString()) * -1, //Reverse the X axis
-											float.Parse(messageSplit[(index * 4) + 1].ToString()) * -1, //Reverse the Y axis
-											float.Parse(messageSplit[(index * 4) + 2].ToString()));
+					}
 
 				}
 				if (packet != null && packet.Length == 0)
@@ -118,14 +105,6 @@ public class MediapipePoseReceiver : MonoBehaviour
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < packet.Length; i++) sb.Append((char)packet[i]);
 		return sb.ToString();
-	}
-
-	private void Update()
-	{
-		//Assign the positions received in the socket to the objects
-		noseGO.transform.localPosition = nose * multiplier;
-		leftWristGO.transform.localPosition = leftWrist * multiplier;
-		rightWristGO.transform.localPosition = rightWrist * multiplier; 
 	}
 
 	private void OnDestroy()

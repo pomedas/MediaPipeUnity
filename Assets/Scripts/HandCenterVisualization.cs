@@ -5,21 +5,21 @@ using UnityEngine;
 public class HandCenterVisualization : MonoBehaviour
 {
     public MediapipeHandsReceiver mediapipeHandsReceiver;
+
     public GameObject landmark;
+
     public GameObject leftHandGO;
     public GameObject rightHandGO;
+
     public GameObject lmLeft;
     public GameObject lmRight;
+
     public Vector2 imgAspect;
 
     // Start is called before the first frame update
     void Start()
     {
-        lmLeft = Instantiate(landmark, Vector3.zero, Quaternion.identity);
-        lmLeft.transform.SetParent(leftHandGO.transform);
 
-        lmRight = Instantiate(landmark, Vector3.zero, Quaternion.identity);
-        lmRight.transform.SetParent(rightHandGO.transform);
     }
 
     // Update is called once per frame

@@ -13,14 +13,7 @@ public class HandJointsVisualization : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 21; i++) {
 
-            GameObject lmLeft = Instantiate(landmark, Vector3.zero,Quaternion.identity);
-            lmLeft.transform.SetParent(leftHandGO.transform);
-
-            GameObject lmRight = Instantiate(landmark, Vector3.zero, Quaternion.identity);
-            lmRight.transform.SetParent(rightHandGO.transform);
-        } 
     }
 
     // Update is called once per frame

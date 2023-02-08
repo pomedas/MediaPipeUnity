@@ -80,7 +80,7 @@ public class MediapipeHandsReceiver : MonoBehaviour
 
 					for (int i = 0; i < 21; i++)
 					{
-						//Shift teh first two positions in message split 
+						//Shift the first two positions in message split 
 						handLandmarks[i] = new Vector3(float.Parse(messageSplit[(i * 4) + 2].ToString()), //Reverse the X axis
 													   float.Parse(messageSplit[(i * 4) + 3].ToString()) * -1, //Reverse the Y axis
 													   float.Parse(messageSplit[(i * 4) + 4].ToString()));
