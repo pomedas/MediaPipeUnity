@@ -74,7 +74,7 @@ public class MediapipePoseReceiver : MonoBehaviour
 					for (int i = 0; i < 32; i++)
 					{
 						//Shift the first two positions in message split 
-						pose[i] = new Vector3( float.Parse(messageSplit[i * 4].ToString()) * -1, //Reverse the X axis
+						pose[i] = new Vector3( float.Parse(messageSplit[i * 4].ToString()), //Reverse the X axis
 											   float.Parse(messageSplit[(i * 4) + 1].ToString()) * -1, //Reverse the Y axis
 											   float.Parse(messageSplit[(i * 4) + 2].ToString()));
 

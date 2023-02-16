@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class Draw : MonoBehaviour
 {
-    public bool draw = true;
+    public bool draw;
     public GameObject landmark;
 
     //LineRenderer allow to draw a line using an array of points
